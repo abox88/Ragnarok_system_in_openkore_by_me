@@ -1,9 +1,9 @@
-09AB = work 
-09A6 = not work  # unpack wrong
+09AB = work  #check money 
+09A6 = not work  # unpack wrong #print money 
+09A9 = need test 
 
 
-
-
+============================================================================================================================
 send //
 '09AB' => ['banking_check', 'v a4', [qw(len charID)]],
 
@@ -14,9 +14,16 @@ sub banking_check {
 	debug "Checking Money in Bank\n", "sendPacket";
 }
 
+'09A9' => ['banking_withdraw', 'v a4 V', [qw(len charID zeny)]],
+sub banking_withdraw {
+	my ($self) = @_;
+	my $msg = pack('v a4', 0x09A9, $accountID, $zeny); # need add $zeny
+	$self->sendToServer($msg);	
+	debug "withdraw Money in Bank\n", "sendPacket";
+}
 
 
-
+============================================================================================================================
 recv//
 09A6
 '09A6' => ['banking_status', 'a8 v' ,[qw(zeny reason)]],
@@ -28,7 +35,7 @@ sub bankingstatus {
 }
 
 
-
+============================================================================================================================
 //commands.pm
 sub cmdBank {
     my (undef, $args) = @_;
@@ -37,7 +44,7 @@ sub cmdBank {
         error TF("You must be logged in the game to use this command\n");
     }
     if ($arg1 eq "check") {
-         $messageSender->banking_check();
+         $messageSender->banking_check(); #send banking_check
         return;
     } else {
         error TF("Unknown Bank command\n");
