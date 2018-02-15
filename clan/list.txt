@@ -1,0 +1,62 @@
+Packet Parser: Unknown switch: 098A
+Packet Parser: Unknown switch: 0988
+
+'0988' => ['clan_user', 'v2' ,[qw(onlineuser totalmembers)]],
+
+
+sub clan_user {
+    my ($self, $args) = @_;
+
+    message TF ("================= Clan Status =====================\n"),"info";
+    message TF ("Online members : ".$args->{onlineuser}."\n");
+    message TF ("Total Members  : ".$args->{totalmembers}."\n");
+    message TF ("===================================================\n"),"info";
+}
+
+
+    '0988': 
+    [
+        (
+            ("clan users count", (parseAllFields,), (0, 100000000)),
+            [
+                ('online members', generic, 2, 1),
+                ('total members', generic, 2, 1),
+            ]
+        ),
+    ],
+
+	
+	
+    '098a': 
+    [
+        (
+            ("clan info (?)", (parseAllFields,), (0, 100000000)),
+            [
+                ('emblem id', generic, 4, 1),
+                ('clan name', string, 24, 1),
+                ('master name', string, 24, 1),
+                ('managed map', string, 16, 1),
+                ('ally clans', generic, 1, 1, getUInt, printGeneric, (setVar, "ally_count")),
+                ('hostile clans', generic, 1, 1, getUInt, printGeneric, (setVar, "hostile_count")),
+                (' ally num', counter, 0, 2, "decVar(state, 'ally_count', 1)"),
+                (' ally clan name', string, 24, -1),
+                (' hostile num', counter, 0, 2, "decVar(state, 'hostile_count', 1)"),
+                (' hostile clan name', string, 24, -1),
+            ]
+        ),
+    ],
+	
+	
+================================================
+<< Received packet:      098A [98 bytes]   Feb 16 04:41:49 2018
+  0>  8A 09 62 00 01 00 00 00    53 77 6F 72 64 6D 61 6E    ..b.....Swordman
+ 16>  20 43 6C 61 6E 00 00 00    00 00 00 00 00 00 00 00     Clan...........
+ 32>  52 61 66 66 61 6D 20 4F    72 61 6E 70 65 72 65 00    Raffam Oranpere.
+ 48>  00 00 00 00 00 00 00 00    70 72 6F 6E 74 65 72 61    ........prontera
+ 64>  2E 67 61 74 00 00 00 00    01 00 47 6F 6C 64 65 6E    .gat......Golden
+ 80>  20 4D 61 63 65 20 43 6C    61 6E 00 00 00 00 00 00     Mace Clan......
+ 96>  00 00                                                 ..
+Packet Parser: Unknown switch: 098A
+================================================
+<< Received packet:      0988 [6 bytes]   Feb 16 04:41:49 2018
+  0>  88 09 01 00 F4 01                                     ......	

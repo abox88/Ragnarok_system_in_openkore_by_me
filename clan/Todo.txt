@@ -1,0 +1,16 @@
+0988 : work 
+
+recv=======================
+'0988' => ['clan_user', 'v2' ,[qw(onlineuser totalmembers)]],
+sub clan_user {
+    my ($self, $args) = @_;
+
+    message TF ("================= Clan Status =====================\n"),"info";
+    message TF ("Online members : ".$args->{onlineuser}."\n");
+    message TF ("Total Members  : ".$args->{totalmembers}."\n");
+    message TF ("===================================================\n"),"info";
+}
+
+
+
+Packet Parser: Unknown switch: 098A
