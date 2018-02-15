@@ -1,16 +1,27 @@
 0988 : work 
-
+098A : not work . #new unpack #new sub
 recv=======================
 '0988' => ['clan_user', 'v2' ,[qw(onlineuser totalmembers)]],
+
 sub clan_user {
     my ($self, $args) = @_;
 
-    message TF ("================= Clan Status =====================\n"),"info";
-    message TF ("Online members : ".$args->{onlineuser}."\n");
-    message TF ("Total Members  : ".$args->{totalmembers}."\n");
-    message TF ("===================================================\n"),"info";
+    message TF ("[Clan Status]|Online members: ".$args->{onlineuser}."|Total Members: ".$args->{totalmembers}."\n"),"info";
 }
 
 
-
 Packet Parser: Unknown switch: 098A
+'098A' => ['clan_info', 'V a24 a24 a16 x2 a24' ,[qw(emblem_id clan_name master_name managed_map ally_clans hostile_clans ally_clan_name)]],
+
+
+sub clan_info {
+    my ($self, $args) = @_;
+
+    message TF ("================= Clan Status =====================\n"),"info";
+    message TF ("Emblem id : ".$args->{emblem_id}."\n");
+    message TF ("Clan name  : ".$args->{clan_name}."\n");
+	message TF ("Ally clan name  : ".$args->{ally_clan_name}."\n");		
+    message TF ("Master name  : ".$args->{master_name}."\n");
+    message TF ("Managed map  : ".$args->{managed_map}."\n");
+    message TF ("===================================================\n"),"info";
+}
