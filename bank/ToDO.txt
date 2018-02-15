@@ -1,5 +1,5 @@
 09AB = work  #check money 
-09A6 = not work  # unpack wrong #print money 
+09A6 = work #print money after check money
 09A9 = need test 
 
 
@@ -14,6 +14,8 @@ sub banking_check {
 	debug "Checking Money in Bank\n", "sendPacket";
 }
 
+
+#need check 
 '09A9' => ['banking_withdraw', 'v a4 V', [qw(len charID zeny)]],
 sub banking_withdraw {
 	my ($self) = @_;
