@@ -20,21 +20,12 @@ sub banking_check {
 recv//
 09A6
 '09A6' => ['banking_status', 'a8 v' ,[qw(zeny reason)]],
-sub banking_status {
-	my ($self, $args) = @_;
 
-	my $item = {};
-	$zeny->{zeny} = $args->{zeny};
-	$reason->{reason} = $args->{reason};
-
-	my $msg;
-	$msg .= center(" " . T("Bank_info") . " ", 79, '-') . "\n";
-	$msg .= swrite(TF("Zeny: \@%s, ('<'x39), ('<'x24)),
-			[bytesToString($args->{zeny}))]);
-	$msg .= TF("Reason: %s\n", bytesToString($args->{reason}));
-	$msg .= ("%s\n", ('-'x79));
-	$msg .= sprintf("%s\n", ('-'x79));
-	message($msg, "info");
+sub bankingstatus {
+    my ($self, $args) = @_;
+    message "==== Bank status ===="
+    message "Zeny : <<< \n";
+    message "====================="
 }
 
 
