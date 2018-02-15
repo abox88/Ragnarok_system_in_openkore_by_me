@@ -16,10 +16,10 @@ sub banking_check {
 
 
 #need check 
-'09A9' => ['banking_withdraw', 'v a4 V', [qw(len charID zeny)]],
+'09A9' => ['banking_withdraw', 'a4 V', [qw(charID zeny)]],
 sub banking_withdraw {
 	my ($self) = @_;
-	my $msg = pack('v a4', 0x09A9, $accountID, $zeny); # need add $zeny
+	my $msg = pack('a4 V', 0x09A9, $accountID, $zeny); # need add $zeny
 	$self->sendToServer($msg);	
 	debug "withdraw Money in Bank\n", "sendPacket";
 }
