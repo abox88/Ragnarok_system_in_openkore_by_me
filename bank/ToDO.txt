@@ -33,7 +33,7 @@ recv//
 sub banking_status {
     my ($self, $args) = @_;
 	
-	message TF ("--------------- Bank status ---------------\n"),"info";
+	message TF ("--------------- [Bank status] ---------------\n"),"info";
 	message TF ("Zeny: ".$args->{zeny}."\n");
 	message TF ("-------------------------------------------\n"),"info";
 }
