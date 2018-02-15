@@ -1,5 +1,5 @@
 09AB = work 
-09A6 = not work 
+09A6 = not work  # unpack wrong
 
 
 
@@ -23,11 +23,9 @@ recv//
 
 sub bankingstatus {
     my ($self, $args) = @_;
-    message "==== Bank status ===="
-    message "Zeny : <<< \n";
-    message "====================="
+	
+	message TF("Zeny: %s.\n", bytesToString($args->{zeny})), "info";
 }
-
 
 
 
