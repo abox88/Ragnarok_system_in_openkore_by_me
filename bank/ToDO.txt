@@ -28,10 +28,13 @@ recv//
 09A6
 '09A6' => ['banking_status', 'a8 v' ,[qw(zeny reason)]],
 
-sub bankingstatus {
+sub banking_status {
     my ($self, $args) = @_;
+    $args->{zeny} = getHex($args->{zeny});
+    $args->{zeny} = join '', reverse split / /, $args->{zeny};
+    $args->{zeny} = hex $args->{zeny};
 	
-	message TF("Zeny: %s.\n", bytesToString($args->{zeny})), "info";
+	message "Zeny: ".$args->{zeny}."\n";
 }
 
 
