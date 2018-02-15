@@ -46,7 +46,8 @@ sub cmdBank {
     if ($arg1 eq "check") {
          $messageSender->banking_check(); #send banking_check
         return;
-    } else {
-        error TF("Unknown Bank command\n");
-    }
+		}	
+	} elsif ($args1 eq "withdraw") { #need add command withdraw
+	
+
 }
