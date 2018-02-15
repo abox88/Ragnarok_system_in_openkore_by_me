@@ -36,7 +36,9 @@ sub banking_status {
     $args->{zeny} = join '', reverse split / /, $args->{zeny};
     $args->{zeny} = hex $args->{zeny};
 	
-	message "Zeny: ".$args->{zeny}."\n";
+	message TF ("--------------- Bank status ---------------\n"),"info";
+	message TF ("Zeny: ".$args->{zeny}."\n");
+	message TF ("-------------------------------------------\n"),"info";
 }
 
 
