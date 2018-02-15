@@ -1,0 +1,56 @@
+09AB = work 
+09A6 = not work 
+
+
+
+
+send //
+'09AB' => ['banking_check', 'v a4', [qw(len charID)]],
+
+sub banking_check {
+	my ($self) = @_;
+	my $msg = pack('v a4', 0x09AB, $accountID);
+	$self->sendToServer($msg);	
+	debug "Checking Money in Bank\n", "sendPacket";
+}
+
+
+
+
+recv//
+09A6
+'09A6' => ['banking_status', 'a8 v' ,[qw(zeny reason)]],
+sub banking_status {
+	my ($self, $args) = @_;
+
+	my $item = {};
+	$zeny->{zeny} = $args->{zeny};
+	$reason->{reason} = $args->{reason};
+
+	my $msg;
+	$msg .= center(" " . T("Bank_info") . " ", 79, '-') . "\n";
+	$msg .= swrite(TF("Zeny: \@%s, ('<'x39), ('<'x24)),
+			[bytesToString($args->{zeny}))]);
+	$msg .= TF("Reason: %s\n", bytesToString($args->{reason}));
+	$msg .= ("%s\n", ('-'x79));
+	$msg .= sprintf("%s\n", ('-'x79));
+	message($msg, "info");
+}
+
+
+
+
+//commands.pm
+sub cmdBank {
+    my (undef, $args) = @_;
+    my ($arg1, $arg2) = parseArgs($args, 2);
+    if (!$net || $net->getState() != Network::IN_GAME || !$char) {
+        error TF("You must be logged in the game to use this command\n");
+    }
+    if ($arg1 eq "check") {
+         $messageSender->banking_check();
+        return;
+    } else {
+        error TF("Unknown Bank command\n");
+    }
+}
