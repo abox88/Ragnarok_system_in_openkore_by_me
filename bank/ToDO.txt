@@ -45,17 +45,46 @@ sub banking_status {
 ============================================================================================================================
 //commands.pm
 sub cmdBank {
-    my (undef, $args) = @_;
-    my ($arg1, $arg2) = parseArgs($args, 2);
-    if (!$net || $net->getState() != Network::IN_GAME || !$char) {
-        error TF("You must be logged in the game to use this command\n");
-    }
-    if ($arg1 eq "check") {
-         $messageSender->banking_check(); #send banking_check
-        return;
-		}	
-	} elsif ($args1 eq "withdraw") { #need add command withdraw 
-		#$messageSender->banking_withdraw(accountID, zeny)
-	
+	if (!$net || $net->getState() != Network::IN_GAME) {
+		error TF("You must be logged in the game to use this command '%s'\n", shift);
+		return;
+	}
+	my ($cmd, $args_string) = @_;
+	if (!defined $Bank) {
+		error T("Cannot use Bank yet.\n");
+		return;
+	}
+	my @args = parseArgs($args_string, 4);
 
-}
+	# Check bank 
+	#bank check
+	if ($args[0] eq "check") {
+		message T("Check Bank UI.\n"), "info";
+		undef $refineUI;
+		$messageSender->banking_check();
+		return;
+
+	# Bank withdraw [Zeny]
+	# Do refine
+	} elsif ($args[0] eq "withdraw") {
+		my $zeny = $args[1];
+		# Check Zeny
+		my $zeny = $char->zeny->get($zeny);
+
+		$bank->{zeny} = $zeny;
+		
+		$messageSender->banking_withdraw();
+		return;
+	# Bank deposit [Zeny]
+	} elsif ($args[0] eq "deposit") {
+		my $zeny = $args[1];
+
+		# Check Zeny
+		my $zeny = $char->zeny->get($zeny);
+
+		$bank->{zeny} = $zeny;
+		
+		$messageSender->banking_deposit();
+		return;
+	}
+}	
