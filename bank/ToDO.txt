@@ -19,7 +19,8 @@ sub banking_check {
 '09A9' => ['banking_withdraw', 'a4 V', [qw(charID zeny)]],
 sub banking_withdraw {
 	my ($self) = @_;
-	my $msg = pack('a4 V', 0x09A9, $accountID, $zeny); # need add $zeny
+	# my $msg = pack('a4 V', 0x09A9, $args->{accountID}, $args->{zeny});
+	my $msg = pack('a4 V', 0x09A9, $accountID, $zeny); # need add $zeny 
 	$self->sendToServer($msg);	
 	debug "withdraw Money in Bank\n", "sendPacket";
 }
@@ -33,10 +34,12 @@ recv//
 sub banking_status {
     my ($self, $args) = @_;
 	
-	message TF ("--------------- [Bank status] ---------------\n"),"info";
-	message TF ("Zeny: ".$args->{zeny}."\n");
-	message TF ("-------------------------------------------\n"),"info";
+	message TF ("--------------- [Bank Storage] ---------------\n"),"info";
+	message TF ("In Bank: ".$args->{zeny}." Zeny\n");
+	message TF ("In Hard: ".$char->{zeny}." Zeny\n");
+	message TF ("-----------------------------------------------\n"),"info";
 }
+
 
 
 ============================================================================================================================
@@ -51,7 +54,8 @@ sub cmdBank {
          $messageSender->banking_check(); #send banking_check
         return;
 		}	
-	} elsif ($args1 eq "withdraw") { #need add command withdraw
+	} elsif ($args1 eq "withdraw") { #need add command withdraw 
+		#$messageSender->banking_withdraw(accountID, zeny)
 	
 
 }
