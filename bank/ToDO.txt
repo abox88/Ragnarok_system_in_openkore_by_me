@@ -17,7 +17,8 @@ sub banking_check {
 
 #need check 
 '09A9' => ['banking_withdraw', 'a4 V', [qw(charID zeny)]],
-sub banking_withdraw {
+
+sub sendBankingWithdraw {
     my ($self, $zeny_amount) = @_;
     $data = $self->{recvPacketParser}->reconstruct({
                 switch => 'banking_withdraw',
