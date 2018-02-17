@@ -40,8 +40,8 @@ sub banking_status {
 	
 	message TF ("--------------- [Bank Storage] ---------------\n"),"info";
 	message TF ("In Bank: ".$args->{zeny}." Zeny\n");
-	message TF ("In Hard: ".$char->{zeny}." Zeny\n");
-	message TF ("-----------------------------------------------\n"),"info";
+	message TF ("On Hand: ".$char->{zeny}." Zeny\n");
+	message TF ("----------------------------------------------\n"),"info";
 }
 
 
