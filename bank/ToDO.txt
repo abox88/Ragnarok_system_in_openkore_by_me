@@ -7,13 +7,15 @@
 send //
 '09AB' => ['banking_check', 'v a4', [qw(len charID)]],
 
-sub banking_check {
-	my ($self) = @_;
-	my $msg = pack('v a4', 0x09AB, $accountID);
-	$self->sendToServer($msg);	
-	debug "Checking Money in Bank\n", "sendPacket";
+sub sendBankingCheck {
+    my ($self, $zeny_amount) = @_;
+    $data = $self->{recvPacketParser}->reconstruct({
+                switch => 'banking_check',
+                charID => $accountID,
+            });
+    $self->sendToServer($msg);
+    debug "Check Zeny $accountID from Bank\n", "sendPacket";
 }
-
 
 #need check 
 '09A9' => ['banking_withdraw', 'a4 V', [qw(charID zeny)]],
@@ -22,7 +24,7 @@ sub sendBankingWithdraw {
     my ($self, $zeny_amount) = @_;
     $data = $self->{recvPacketParser}->reconstruct({
                 switch => 'banking_withdraw',
-                charID => $accounID,
+                charID => $accountID,
                 zeny => $zeny_amount,
             });
     $self->sendToServer($msg);
