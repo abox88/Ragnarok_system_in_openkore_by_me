@@ -64,23 +64,14 @@ sub cmdBank {
 		message T("Check Bank UI.\n"), "info";
 		$messageSender->banking_check();
 		return;
-
-	# Bank withdraw [Zeny]
-	# Do refine
 	} elsif ($args[0] eq "withdraw") {
+	# Bank withdraw [Zeny]
 		my $zeny_amount = $args[1];
-		# Check Zeny
 		$messageSender->banking_withdraw();
 		return;
-	# Bank deposit [Zeny]
 	} elsif ($args[0] eq "deposit") {
-		my $zeny = $args[1];
-
-		# Check Zeny
-		my $zeny = $char->zeny->get($zeny);
-
-		$bank->{zeny} = $zeny;
-		
+	# Bank deposit [Zeny]	
+		my $zeny_deposit = $args[1];
 		$messageSender->banking_deposit();
 		return;
 	}
