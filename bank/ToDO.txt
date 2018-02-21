@@ -28,7 +28,7 @@ sub sendBankingCheck {
 }
 
 #need check 
-'09A9' => ['banking_withdraw', 'V', [qw(charID zeny)]],
+'09A9' => ['banking_withdraw', 'a4 v', [qw(charID zeny)]],
 
 sub sendBankingWithdraw {
     my ($self, $zeny_amount) = @_;
