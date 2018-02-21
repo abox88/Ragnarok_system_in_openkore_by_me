@@ -1,5 +1,14 @@
+```
+B = 1
+W = 2
+L = 4
+Q = 8
+```
+
 0988 : work 
-098A : not work . #new unpack #new sub
+098A : not work . #new unpack #new sub|098a <length>.W <clan id>.L <clan name>.24B <clan master>.24B <clan map>.16B <alliance count>.B
+*      <antagonist count>.B { <alliance>.24B } * alliance count { <antagonist>.24B } * antagonist count (ZC_CLANINFO)
+	=2 4 24 24 16 1 1 24 24
 recv=======================
 '0988' => ['clan_user', 'v2' ,[qw(onlineuser totalmembers)]],
 
