@@ -1,6 +1,15 @@
+```
+B = 1
+W = 2
+L = 4
+Q = 8
+```
+
+
+
 09AB = work  #check money 
 09A6 = work #print money after check money
-09A9 = need test 
+09A9 = need test | 09A9 <AID>L <Money>L (PACKET_CZ_REQ_BANKING_WITHDRAW) 
 
 
 ============================================================================================================================
@@ -19,7 +28,7 @@ sub sendBankingCheck {
 }
 
 #need check 
-'09A9' => ['banking_withdraw', 'a4 V', [qw(charID zeny)]],
+'09A9' => ['banking_withdraw', 'V', [qw(charID zeny)]],
 
 sub sendBankingWithdraw {
     my ($self, $zeny_amount) = @_;
