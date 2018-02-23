@@ -70,16 +70,17 @@ sub cmdBank {
 	# Check bank 
 	#bank check
 	if ($args[0] eq "check") {
+	# Bank check
 		message T("Check Bank UI.\n"), "info";
 		$messageSender->banking_check();
 		return;
 	} elsif ($args[0] eq "withdraw") {
-	# Bank withdraw [Zeny]
+	# Bank withdraw [zeny_amount]
 		my $zeny_amount = $args[1];
 		$messageSender->banking_withdraw();
 		return;
 	} elsif ($args[0] eq "deposit") {
-	# Bank deposit [Zeny]	
+	# Bank deposit [zeny_deposit]	
 		my $zeny_deposit = $args[1];
 		$messageSender->banking_deposit();
 		return;
