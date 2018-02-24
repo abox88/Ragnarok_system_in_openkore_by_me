@@ -28,6 +28,7 @@ sub sendBankingCheck {
 }
 
 #need check 
+#maybe V2 ? 
 '09A9' => ['banking_withdraw', 'a4 v', [qw(charID zeny)]],
 
 sub sendBankingWithdraw {
