@@ -18,7 +18,7 @@ send //
 '09AB' => ['banking_check', 'v a4', [qw(len charID)]],
 
 sub sendBankingCheck {
-    my ($self, $zeny_amount) = @_;
+    my ($self, $accountID) = @_;
     $data = $self->{recvPacketParser}->reconstruct({
                 switch => 'banking_check',
                 charID => $accountID,
