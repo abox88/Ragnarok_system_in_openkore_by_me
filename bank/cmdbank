@@ -1,0 +1,20 @@
+sub cmdBank {
+    my (undef, $args_string) = @_;
+    my (@args) = parseArgs($args_string, 3);
+	if (!$net || $net->getState() != Network::IN_GAME) {
+		error TF("You must be logged in the game to use this command '%s'\n", shift);
+		return;
+	}
+	
+	if ($args[0] eq "check") {
+		message TF("Check Zeny on bank (ID:%s).\n", $accountID,"info");
+		$messageSender->sendbankcheck($accountID);
+		return;
+	} elsif ($args[0] eq "withdraw") {
+		$messageSender->sendbankwithdraw($accountID, $args[1]);
+		return;
+	} elsif ($args[0] eq "deposit") {
+		$messageSender->sendbankdeposit($accountID, $args[1]);
+		return;
+	}
+}
