@@ -7,41 +7,34 @@ Q = 8
 
 
 
-09AB = work  #check money 
-09A6 = work #print money after check money
-09A9 = need test | 09A9 <AID>L <Money>L (PACKET_CZ_REQ_BANKING_WITHDRAW) 
+09AB = work 
+09A6 = work 
+09A9 = work
 
 
 ============================================================================================================================
 send //
-#maybe : '09AB' => ['banking_check', 'v3', [qw(charID)]], ? 
-'09AB' => ['banking_check', 'v a4', [qw(len charID)]],
+'09AB' => ['banking_check', 'a4', [qw(charID)]],
 
-sub sendBankingCheck {
-    my ($self, $accountID) = @_;
-    $data = $self->{recvPacketParser}->reconstruct({
-                switch => 'banking_check',
-                charID => $accountID,
-            });
-    $self->sendToServer($msg);
-    debug "Check Zeny $accountID from Bank\n", "sendPacket";
+sub sendbankcheck {
+	my ($self, $accountID) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'banking_check',
+		charID => $accountID,
+	}));
 }
 
-#need check 
-#maybe V2 ? 
-'09A9' => ['banking_withdraw', 'a4 v', [qw(charID zeny)]],
 
-sub sendBankingWithdraw {
-    my ($self, $zeny_amount) = @_;
-    $data = $self->{recvPacketParser}->reconstruct({
-                switch => 'banking_withdraw',
-                charID => $accountID,
-                zeny => $zeny_amount,
-            });
-    $self->sendToServer($msg);
-    debug "Withdraw $zeny_amount from Bank\n", "sendPacket";
+'09A9' => ['banking_withdraw', 'a4 V', [qw(charID zenywithdraw)]],
+
+sub sendbankwithdraw {
+	my ($self, $accountID , $zenyamount) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'banking_withdraw',
+		charID => $accountID,
+		zenywithdraw => $zenyamount,
+	}));
 }
-
 
 ============================================================================================================================
 recv//
@@ -49,14 +42,20 @@ recv//
 '09A6' => ['banking_status', 'V2 C2' ,[qw(zeny reason)]],
 
 sub banking_status {
-    my ($self, $args) = @_;
-	
-	message TF ("--------------- [Bank Storage] ---------------\n"),"info";
-	message TF ("In Bank: ".$args->{zeny}." Zeny\n");
-	message TF ("On Hand: ".$char->{zeny}." Zeny\n");
-	message TF ("----------------------------------------------\n"),"info";
+	my ($self, $args) = @_;
+	foreach (qw(zeny reason)) {
+        $bank{$_} = $args->{$_};
+   }		
+    $bank{zeny} = $args->{zeny};
+	$bank{reason} = $args->{zeny};
+	my $msg = center(T("[Bank Storage]"), 60, '-') ."\n" .
+		TF("In Bank : (%d) Zeny \n" .
+			"On Hand : (%d) Zeny \n",				
+		$bank{zeny}, $char->{zeny});
+		$msg .= ('-'x60) . "\n";
+		message $msg, "info";
+		
 }
-
 
 
 ============================================================================================================================
@@ -68,22 +67,14 @@ sub cmdBank {
 		error TF("You must be logged in the game to use this command '%s'\n", shift);
 		return;
 	}
-	# Check bank 
-	#bank check
+	
 	if ($args[0] eq "check") {
-	# Bank check
-		message T("Check Bank UI.\n"), "info";
-		$messageSender->banking_check();
+		message TF("Check Zeny on bank (ID:%s).\n", $accountID,"info");
+		$messageSender->sendbankcheck($accountID);
 		return;
 	} elsif ($args[0] eq "withdraw") {
-	# Bank withdraw [zeny_amount]
-		my $zeny_amount = $args[1];
-		$messageSender->banking_withdraw();
-		return;
-	} elsif ($args[0] eq "deposit") {
-	# Bank deposit [zeny_deposit]	
-		my $zeny_deposit = $args[1];
-		$messageSender->banking_deposit();
+		message TF("Withdraw Zeny to bank (Zeny:%s).\n", $args[1],"info");
+		$messageSender->sendbankwithdraw($accountID, $args[1]);
 		return;
 	}
-}	
+}
