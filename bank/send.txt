@@ -1,6 +1,7 @@
 
 		'09AB' => ['banking_check', 'a4', [qw(charID)]],
-		'09A9' => ['banking_withdraw', 'a4 V', [qw(charID zenywithdraw)]],	
+		'09A9' => ['banking_withdraw', 'a4 V', [qw(charID zenywithdraw)]],
+		'09A7' => ['banking_deposit', 'a4 V', [qw(charID zenywithdraw)]],	
 
 sub sendbankcheck {
 	my ($self, $accountID) = @_;
@@ -13,6 +14,15 @@ sub sendbankwithdraw {
 	my ($self, $accountID , $zenyamount) = @_;
 	$self->sendToServer($self->reconstruct({
 		switch => 'banking_withdraw',
+		charID => $accountID,
+		zenywithdraw => $zenyamount,
+	}));
+}
+
+sub sendbankdeposit {
+	my ($self, $accountID , $zenyamount) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'banking_deposit',
 		charID => $accountID,
 		zenywithdraw => $zenyamount,
 	}));
