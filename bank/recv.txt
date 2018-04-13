@@ -1,0 +1,29 @@
+		'09A6' => ['banking_status', 'V2 C2',[qw(zeny reason)]],
+		'09AA' => ['banking_status_withdraw', 'v V2 v2',[qw(reason inbank onhand)]],
+
+sub banking_status {
+	my ($self, $args) = @_;
+	foreach (qw(zeny reason)) {
+        $bank{$_} = $args->{$_};
+   }		
+    $bank{zeny} = $args->{zeny};
+	$bank{reason} = $args->{zeny};
+	my $msg = center(T("[Bank Storage]"), 60, '-') ."\n" .
+		TF("In Bank : (%d) Zeny \n" .
+			"On Hand : (%d) Zeny \n",				
+		$bank{zeny}, $char->{zeny});
+		$msg .= ('-'x60) . "\n";
+		message $msg, "info";
+		
+}
+
+sub banking_status_withdraw {
+    my ($self, $args) = @_;
+
+	my $msg = center(T("[ Bank Status : Withdraw]"), 60, '-') ."\n" .
+		TF("Balance in the bank : %d Zeny \n" .
+			"Balance in ID : %d Zeny \n",				
+		$args->{inbank}, $char->{zeny});
+		$msg .= ('-'x60) . "\n";
+		message $msg, "info";
+}
