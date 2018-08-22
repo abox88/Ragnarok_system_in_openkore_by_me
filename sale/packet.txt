@@ -1,0 +1,85 @@
+	// Sale
+	parseable_packet(0x09AC,-1,clif_parse_sale_search,2,4,8);
+	/// 09ac <account id>.L <item id>.W (CZ_REQ_CASH_BARGAIN_SALE_ITEM_INFO)
+	a4 v
+	/// The client requested a refresh of the current remaining count of a sale item
+
+	packet(0x09AD,8);
+	/// 09ad <result>.W <item id>.W <price>.L (ZC_ACK_CASH_BARGAIN_SALE_ITEM_INFO)
+	v2 V
+	parseable_packet(0x09AE,17,clif_parse_sale_add,2,6,8,12,16);
+	/// 09ae <account id>.L <item id>.W <amount>.L <start time>.L <hours on sale>.B (CZ_REQ_APPLY_BARGAIN_SALE_ITEM)
+	/// 0a3d <account id>.L <item id>.W <amount>.L <start time>.L <hours on sale>.W
+	a4 v V2 C
+	a4 v V2 v
+	
+	packet(0x09AF,4);
+	09af <result>.W (ZC_ACK_APPLY_BARGAIN_SALE_ITEM)
+	enum e_sale_add_result {
+	SALE_ADD_SUCCESS = 0,
+	SALE_ADD_FAILED = 1,
+	SALE_ADD_DUPLICATE = 2
+	};
+	v
+=============================================================	
+	parseable_packet(0x09B0,8,clif_parse_sale_remove,2,6);
+	/// 09b0 <account id>.L <item id>.W (CZ_REQ_REMOVE_BARGAIN_SALE_ITEM)
+	'09B0' => ['sale_remove_item', 'a4 v' ,[qw(ID itemID)]],
+	sub sendSaleRemoveItem {
+	my ($self,$accountID,$ItemID) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'sale_remove_item',
+		ID => $accountID,
+		ItemID => $ItemID,
+	}));
+}
+================================================================
+	packet(0x09B1,4);
+	09b1 <result>.W (ZC_ACK_REMOVE_BARGAIN_SALE_ITEM)
+	v
+	
+	packet(0x09B2,8);
+	09b2 <item id>.W <remaining time>.L (ZC_NOTIFY_BARGAIN_SALE_SELLING)
+	v V
+	
+	packet(0x09B3,4);
+	09b3 <item id>.W (ZC_NOTIFY_BARGAIN_SALE_CLOSE)
+	v
+==============================================================	
+	parseable_packet(0x09B4,6,clif_parse_sale_open,2);
+	09b4 <account id>.L (CZ_OPEN_BARGAIN_SALE_TOOL)
+	'09B4' => ['sale_open', 'a4' ,[qw(ID)]],
+	sub sendSaleOpen {
+	my ($self,$accountID) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'sale_open',
+		ID => $accountID,
+	}));
+}
+================================================================
+	parseable_packet(0x09BC,6,clif_parse_sale_close,2);
+	09bc (CZ_CLOSE_BARGAIN_SALE_TOOL)
+	'09B4' => ['sale_close'],
+	sub sendSaleClose {
+	my ($self,$accountID) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'sale_close',
+	}));
+}
+==================================================================	
+	parseable_packet(0x09C3,8,clif_parse_sale_refresh,2,6);
+	09ac <account id>.L <item id>.W (CZ_REQ_CASH_BARGAIN_SALE_ITEM_INFO)
+	a4 v
+	'09AC' => ['sale_iteminfo', 'a4 v' ,[qw(ID ItemID)]],
+	sub sendSaleItemInfo {
+	my ($self,$accountID,$ItemID) = @_;
+	$self->sendToServer($self->reconstruct({
+		switch => 'sale_iteminfo',
+		ID => $accountID,
+		ItemID => $ItemID,
+	}));
+}
+===================================================================	
+	packet(0x09C4,8);
+	09c4 <item id>.W <amount>.L (ZC_ACK_COUNT_BARGAIN_SALE_ITEM)
+	v V
