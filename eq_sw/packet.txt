@@ -1,0 +1,4 @@
+cz_eq sw / 0A97 <index>.W <position>.L 
+zc_eq sw / 0A98 = <index>.W <equip location>.L <result>.W
+cz_uneq sw / 0A99 <index>.W
+zc_uneq sw / 0A9A <index>.W <equip location>.L <result>.W
