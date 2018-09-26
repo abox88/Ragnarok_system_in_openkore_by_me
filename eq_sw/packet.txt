@@ -1,11 +1,11 @@
 cz_eq sw / 0A97 <index>.W <equip location>.L 
 '0A97' => ['send_equip_switch', 'a2 v', [qw(ID type)]],#6
 sub sendEquip_Switch {
-	my ($self, $ID, $type) = @_;
-	$self->sendToServer($self->reconstruct({
-				switch => 'send_equip_switch',
-				ID => $ID,
-				type => $type
+    my ($self, $ID,$type) = @_;
+    $self->sendToServer($self->reconstruct({
+	switch => 'send_equip_switch',
+	ID => $ID,
+	type => $type
 			}));
 }
 =====================================================================================
