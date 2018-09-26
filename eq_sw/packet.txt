@@ -6,7 +6,7 @@ sub sendEquip_Switch {
 	switch => 'send_equip_switch',
 	ID => $ID,
 	type => $type
-			}));
+    }));
 }
 =====================================================================================
 
@@ -18,10 +18,9 @@ zc_eq sw / 0A98 <index>.W <equip location>.L <view id[not sure?]>.W <result>.W P
   0x0 = success
   0x1 = failure
   0x2 = low lv to use it .
+  
 ===========================================
 cz_uneq sw / 0A99 <index>.W <equip location[not sure?]>.L PACKETVER >= 20160928
-
-=====================================================================================
 cz_uneq sw / 0A99 <index>.W PACKETVER >= 20170419
 '0A99' => ['send_unequip_switch', 'a2', [qw(ID)]],
 sub sendUnequip {
