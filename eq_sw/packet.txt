@@ -23,7 +23,7 @@ zc_eq sw / 0A98 <index>.W <equip location>.L <view id[not sure?]>.W <result>.W P
 cz_uneq sw / 0A99 <index>.W <equip location[not sure?]>.L PACKETVER >= 20160928
 cz_uneq sw / 0A99 <index>.W PACKETVER >= 20170419
 '0A99' => ['send_unequip_switch', 'a2', [qw(ID)]],
-sub sendUnequip {
+sub sendUnequip_Switch {
     my ($self, $ID) = @_;
     $self->sendToServer($self->reconstruct({
         switch => 'send_unequip_switch',
