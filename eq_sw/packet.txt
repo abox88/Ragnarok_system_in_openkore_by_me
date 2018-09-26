@@ -1,4 +1,16 @@
 cz_eq sw / 0A97 <index>.W <equip location>.L 
+'0A97' => ['send_equip_switch', 'a2 v', [qw(ID type)]],#6
+sub sendEquip_Switch {
+	my ($self, $ID, $type) = @_;
+	$self->sendToServer($self->reconstruct({
+				switch => 'send_equip_switch',
+				ID => $ID,
+				type => $type
+			}));
+}
+=====================================================================================
+
+
 zc_eq sw / 0A98 <index>.W <equip location>.L <result>.W PACKETVER >= 20170426
 zc_eq sw / 0A98 <index>.W <equip location>.L <view id[not sure?]>.W <result>.W PACKETVER >= 20160928
 
@@ -8,7 +20,19 @@ zc_eq sw / 0A98 <index>.W <equip location>.L <view id[not sure?]>.W <result>.W P
   0x2 = low lv to use it .
 ===========================================
 cz_uneq sw / 0A99 <index>.W <equip location[not sure?]>.L PACKETVER >= 20160928
+
+=====================================================================================
 cz_uneq sw / 0A99 <index>.W PACKETVER >= 20170419
+'0A99' => ['send_unequip_switch', 'a2', [qw(ID)]],
+sub sendUnequip {
+    my ($self, $ID) = @_;
+    $self->sendToServer($self->reconstruct({
+        switch => 'send_unequip_switch',
+        ID => $ID,
+    }));
+}
+=====================================================================================
+
 zc_uneq sw / 0A9A <index>.W <equip location>.L <result>.W
 
 
