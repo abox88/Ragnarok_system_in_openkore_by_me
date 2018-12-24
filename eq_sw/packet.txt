@@ -5,7 +5,7 @@ sub sendEquip_Switch {
     $self->sendToServer($self->reconstruct({
 	switch => 'send_equip_switch',
 	ID => $ID,
-	type => $type
+	type => equipSlot_lut($ID)
     }));
 }
 =====================================================================================
